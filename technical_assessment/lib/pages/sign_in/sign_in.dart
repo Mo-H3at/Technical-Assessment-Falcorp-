@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:technical_assessment/pages/main_display/bottom_tabs.dart';
+import 'package:technical_assessment/pages/sign_up/sign_up.dart';
+
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
+
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late FocusNode nameNode;
+  late FocusNode emailNode;
+
+  @override
+  void initState() {
+    emailController = TextEditingController();
+    emailNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    emailNode.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text("Sign In"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 20,
+          children: [
+            const Text('You have pushed the button this many times:'),
+            
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: emailController,
+                focusNode: emailNode,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  labelText: 'Enter Email',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+
+            ElevatedButton(
+              onPressed: (){
+                Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => BottomTabsWidget()));
+              }, 
+              child: const Text("Sign In")),
+
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: TextButton(
+                onPressed: (){
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SignUpPage()));
+                }, 
+                child: Text("Sign Up")),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
