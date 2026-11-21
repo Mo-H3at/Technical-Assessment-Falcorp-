@@ -12,11 +12,71 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: GridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 4,
+          crossAxisSpacing: 5,
           children: [
-            Icon(Icons.warning, size: 100),
-            Text('To Be Developed',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            Card(
+              elevation: 0.2,
+              color: Colors.grey[700],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Filled Space",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 0.2,
+              color: Colors.blue[100],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Filled Space 2",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 0.2,
+              color: Colors.black,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Filled Space 3",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 0.2,
+              color: Colors.yellow[500],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Filled Space 4",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              elevation: 0.2,
+              color: Colors.red[100],
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Filled Space 5",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),

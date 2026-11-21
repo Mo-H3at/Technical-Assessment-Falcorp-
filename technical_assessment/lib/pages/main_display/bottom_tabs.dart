@@ -32,6 +32,8 @@ void _onItemTapped(int index) {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text("Title"),
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         actions: [
           IconButton(onPressed: (){
             Navigator.push(context,
