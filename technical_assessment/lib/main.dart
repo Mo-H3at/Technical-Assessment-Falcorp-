@@ -5,7 +5,7 @@ import 'package:technical_assessment/storage/stored_user.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  if (await StoredUser().getUser() == null) {
+  if (await StoredUser().getStoredUser() == null) {
     runApp(const MyApp(chosenWidget: SignInPage()));
   } else {
     runApp(const MyApp(chosenWidget: MainTabsPage()));

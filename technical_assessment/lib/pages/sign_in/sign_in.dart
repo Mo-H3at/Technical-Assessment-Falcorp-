@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:technical_assessment/data/services.dart';
 import 'package:technical_assessment/pages/main_display/main_tabs.dart';
 import 'package:technical_assessment/pages/sign_up/sign_up.dart';
-import 'package:technical_assessment/storage/stored_user.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -30,6 +30,7 @@ class _SignInPageState extends State<SignInPage> {
     emailNode.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,12 +57,8 @@ class _SignInPageState extends State<SignInPage> {
             ),
 
             ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  StoredUser().setUser(emailController.text);
-                });
-                Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => MainTabsPage()));
+              onPressed: ()  {
+                signInCheck();
               }, 
               child: const Text("Sign In")),
 
@@ -76,5 +73,33 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+
+  
+  void signInCheck()async{
+    if(await DataServices().signIn(emailController.text))
+    {
+      Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => MainTabsPage()));
+    } else{
+      showDialog(context: context, builder: (context) =>
+            AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              icon: Icon(Icons.warning_amber_rounded,),
+              title: const Text('Please enter correct email', style: TextStyle(fontSize: 14)),
+              actionsPadding: EdgeInsets.all(5),
+              actionsAlignment: MainAxisAlignment.spaceAround,
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Okay')),
+              ],
+        )
+      );
+    }  
   }
 }

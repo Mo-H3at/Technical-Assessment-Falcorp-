@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:technical_assessment/data/services.dart';
 import 'package:technical_assessment/pages/main_display/home.dart';
 import 'package:technical_assessment/pages/main_display/membership.dart';
 import 'package:technical_assessment/pages/main_display/upgrade_membership.dart';
 import 'package:technical_assessment/pages/settings/settings.dart';
+import 'package:technical_assessment/storage/stored_user.dart';
 
 class MainTabsPage extends StatefulWidget {
   const MainTabsPage({super.key, required});
@@ -15,6 +17,18 @@ class _MainTabsPageState extends State<MainTabsPage> {
 
 int selectedIndex = 0;
 String title = 'Welcome';
+var user;
+
+void setUserFunction()async{
+  user = await StoredUser().getStoredUser();
+  DataServices().setJsonUser(user);
+}
+
+@override
+  void initState() {
+    setUserFunction();
+    super.initState();
+  }
 
 static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),

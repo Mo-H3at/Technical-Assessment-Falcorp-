@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../storage/stored_user.dart';
 import '../sign_in/sign_in.dart';
 
 class DeletProfileWidget extends StatefulWidget {
@@ -29,6 +30,7 @@ class _DeletProfileWidgetState extends State<DeletProfileWidget> {
           child: const Text('No')),
         ElevatedButton(
           onPressed: () {
+            StoredUser().removeStoredUser();
             Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(builder: (context) => SignInPage()),
               (route) => false);

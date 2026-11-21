@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:technical_assessment/pages/settings/delete_profile.dart';
 import 'package:technical_assessment/pages/settings/sign_out.dart';
-import 'package:technical_assessment/storage/stored_user.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -43,7 +42,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ),
-              onTap: (){
+              onTap: () {
+                 
               },
             ),
             InkWell(

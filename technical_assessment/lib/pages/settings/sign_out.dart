@@ -30,7 +30,7 @@ class _SignOutWidgetState extends State<SignOutWidget> {
           child: const Text('No')),
         ElevatedButton(
           onPressed: () {
-            StoredUser().removeUser();
+            StoredUser().removeStoredUser();
             Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(builder: (context) => SignInPage()),
               (route) => false);
