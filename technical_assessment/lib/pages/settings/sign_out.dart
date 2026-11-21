@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:technical_assessment/storage/stored_user.dart';
 
 import '../sign_in/sign_in.dart';
 
@@ -29,6 +30,7 @@ class _SignOutWidgetState extends State<SignOutWidget> {
           child: const Text('No')),
         ElevatedButton(
           onPressed: () {
+            StoredUser().removeUser();
             Navigator.pushAndRemoveUntil(context,
               MaterialPageRoute(builder: (context) => SignInPage()),
               (route) => false);

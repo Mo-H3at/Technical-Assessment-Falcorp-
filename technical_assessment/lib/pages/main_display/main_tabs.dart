@@ -4,16 +4,17 @@ import 'package:technical_assessment/pages/main_display/membership.dart';
 import 'package:technical_assessment/pages/main_display/upgrade_membership.dart';
 import 'package:technical_assessment/pages/settings/settings.dart';
 
-class BottomTabsWidget extends StatefulWidget {
-  const BottomTabsWidget({super.key});
+class MainTabsPage extends StatefulWidget {
+  const MainTabsPage({super.key, required});
 
   @override
-  State<BottomTabsWidget> createState() => _BottomTabsWidgetState();
+  State<MainTabsPage> createState() => _MainTabsPageState();
 }
 
-class _BottomTabsWidgetState extends State<BottomTabsWidget> {
+class _MainTabsPageState extends State<MainTabsPage> {
 
 int selectedIndex = 0;
+String title = 'Welcome';
 
 static final List<Widget> _widgetOptions = <Widget>[
     const HomePage(),
@@ -26,13 +27,14 @@ void _onItemTapped(int index) {
       selectedIndex = index;
     });
   }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Title"),
-        backgroundColor: Colors.black,
+        title: Text(title),
+        backgroundColor: const Color.fromARGB(255, 63, 63, 63),
         foregroundColor: Colors.white,
         actions: [
           IconButton(onPressed: (){

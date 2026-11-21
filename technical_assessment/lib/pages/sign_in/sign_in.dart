@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:technical_assessment/pages/main_display/bottom_tabs.dart';
+import 'package:technical_assessment/pages/main_display/main_tabs.dart';
 import 'package:technical_assessment/pages/sign_up/sign_up.dart';
+import 'package:technical_assessment/storage/stored_user.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -55,9 +56,12 @@ class _SignInPageState extends State<SignInPage> {
             ),
 
             ElevatedButton(
-              onPressed: (){
+              onPressed: () {
+                setState(() {
+                  StoredUser().setUser(emailController.text);
+                });
                 Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => BottomTabsWidget()));
+                  MaterialPageRoute(builder: (context) => MainTabsPage()));
               }, 
               child: const Text("Sign In")),
 

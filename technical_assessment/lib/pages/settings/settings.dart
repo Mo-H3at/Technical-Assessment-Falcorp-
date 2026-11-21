@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:technical_assessment/pages/settings/delete_profile.dart';
 import 'package:technical_assessment/pages/settings/sign_out.dart';
+import 'package:technical_assessment/storage/stored_user.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -25,21 +26,25 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Center(
         child: ListView(
           children: [
-            Container(
-              height: 60,
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              child: Center(
-                child: Row(
-                  spacing: 5,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.person,),
-                    Text('User Details',
-                      style: TextStyle(fontWeight: FontWeight.bold),),
-                  ],
+            InkWell(
+              child: Container(
+                height: 60,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                child: Center(
+                  child: Row(
+                    spacing: 5,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.person,),
+                      Text('User Details',
+                        style: TextStyle(fontWeight: FontWeight.bold),),
+                    ],
+                  ),
                 ),
               ),
+              onTap: (){
+              },
             ),
             InkWell(
               child: Container(
