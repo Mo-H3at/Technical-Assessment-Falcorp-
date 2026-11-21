@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:technical_assessment/shared_widgets/upgrade_dialog.dart';
 
 class UpgradeMembershipPage extends StatefulWidget {
   const UpgradeMembershipPage({super.key});
@@ -69,7 +70,9 @@ class _UpgradeMembershipPageState extends State<UpgradeMembershipPage> {
             ),
             Expanded(
               flex: 0,
-              child: ElevatedButton(onPressed: (){}, child: Text("Upgrade Membership")))
+              child: ElevatedButton(
+                onPressed: () => showDialog(context: context, builder: (context)=> UpgradeMembershipDialog()),
+                 child: Text("Upgrade Membership")))
           ],
         ),
       ),

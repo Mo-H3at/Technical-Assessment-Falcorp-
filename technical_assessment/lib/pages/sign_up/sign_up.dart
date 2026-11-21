@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:technical_assessment/pages/sign_in/sign_in.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -67,7 +68,65 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
-             
+              Container(
+                color: Colors.blue,
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.all(10),
+                child: InkWell(
+                 child: Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Continue',
+                        style: TextStyle(fontWeight: FontWeight.bold),),
+                      Icon(Icons.keyboard_double_arrow_right,),
+                    ],
+                  ),
+                ),
+                 onTap: () {
+                  showDialog(context: context,
+                  barrierDismissible: false,
+                   builder: (context) =>
+                    Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(20),
+                        margin: EdgeInsets.all(15),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          spacing: 20,
+                          children: [
+                            const Text('Are you sure?', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            Container(
+                              padding: EdgeInsets.all(8),
+                              child: Row(
+                                spacing: 8,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('No'))
+                                  ),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      onPressed: () => Navigator.pushAndRemoveUntil(context,
+                                            MaterialPageRoute(builder: (context) => SignInPage()), (route) => false),
+                                      child: const Text('Yes'))
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ));
+                },
+              ),
+             ),
             ],
           ),
         ),

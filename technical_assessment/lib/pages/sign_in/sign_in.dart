@@ -64,10 +64,8 @@ class _SignInPageState extends State<SignInPage> {
             Container(
               margin: EdgeInsets.symmetric(vertical: 10),
               child: TextButton(
-                onPressed: (){
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SignUpPage()));
-                }, 
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SignUpPage())), 
                 child: Text("Sign Up")),
             )
           ],

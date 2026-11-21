@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:technical_assessment/pages/sign_in/sign_in.dart';
+import 'package:technical_assessment/pages/settings/delete_profile.dart';
+import 'package:technical_assessment/pages/settings/sign_out.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -29,6 +30,7 @@ class _SettingsPageState extends State<SettingsPage> {
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: Center(
                 child: Row(
+                  spacing: 5,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -45,6 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: Center(
                   child: Row(
+                    spacing: 5,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -55,11 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ),
-              onTap: () {
-                 Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (context) => SignInPage()),
-                    (route) => false);
-              },
+              onTap: () => showDialog(context: context, builder: (context) => SignOutWidget()),
             ),
             InkWell(
               child: Container(
@@ -68,21 +67,18 @@ class _SettingsPageState extends State<SettingsPage> {
                 margin: const EdgeInsets.symmetric(vertical: 10),
                 child: Center(
                   child: Row(
+                    spacing: 5,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.delete_forever, color: const Color.fromARGB(255, 255, 17, 0),),
+                      Icon(Icons.person_remove_alt_1_sharp, color: const Color.fromARGB(255, 255, 17, 0),),
                       Text('Delete Profile', 
                         style: TextStyle(color: const Color.fromARGB(255, 255, 17, 0), fontWeight: FontWeight.bold),),
                     ],
                   ),
                 ),
               ),
-              onTap: () {
-                 Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (context) => SignInPage()),
-                    (route) => false);
-              },
+              onTap: () => showDialog(context: context, builder: (context) => DeletProfileWidget()),
             ),
           ],
         ),
