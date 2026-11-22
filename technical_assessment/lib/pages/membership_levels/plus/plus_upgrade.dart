@@ -15,7 +15,7 @@ class _PlusUpgradeWidgetState extends State<PlusUpgradeWidget> {
    final CarouselController _carouselController = CarouselController(initialItem: 0);
    bool busy = false;
   late final List<Membership> _membershipList;
-  late final List<Features> featuresList;
+   List<dynamic> featuresList = [];
   late final Membership chosenMembership;
   String? membershipId;
 
@@ -26,6 +26,7 @@ class _PlusUpgradeWidgetState extends State<PlusUpgradeWidget> {
       
      setState(() {
       membershipId = widget.membershipId;
+      featuresList = chosenMembership.features;
      });
     busy = false;
   }
@@ -60,9 +61,27 @@ class _PlusUpgradeWidgetState extends State<PlusUpgradeWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(chosenMembership.name,
-                      style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
-                      textAlign: TextAlign.center,softWrap: false,)
+                    Expanded(
+                      flex: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(chosenMembership.name,
+                          style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
+                          textAlign: TextAlign.center,softWrap: false,),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(10),
+                        itemCount: featuresList.length,
+                        itemBuilder: (BuildContext context, int index){
+                          return ListTile(
+                            title: Text(featuresList[index]['name'],style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),softWrap: false,),
+                            subtitle: Text(featuresList[index]['name'],style: TextStyle(fontSize: 14),softWrap: false,),
+                          );
+                        }
+                      ),
+                    )
                   ],
                 ),
               ),
