@@ -18,9 +18,11 @@ class _MainTabsPageState extends State<MainTabsPage> {
 int selectedIndex = 0;
 String title = 'Welcome';
 var user;
+var membershipLevel;
 
 void setUserFunction()async{
   user = await StoredUser().getStoredUser();
+  membershipLevel = await StoredUser().getStoredMembership();
   DataServices().setJsonUser(user);
 }
 
@@ -30,11 +32,14 @@ void setUserFunction()async{
     super.initState();
   }
 
-static final List<Widget> _widgetOptions = <Widget>[
-    const HomePage(),
-    const MembershipPage(),
-    const UpgradeMembershipPage(),
-  ];
+  List<Widget> _mainOptions(){
+     final List<Widget> widgetOptions = <Widget>[
+      HomePage(membershipLevel: membershipLevel),
+      MembershipPage(membershipLevel: membershipLevel,),
+      UpgradeMembershipPage(membershipLevel: membershipLevel,),
+    ];
+    return widgetOptions;
+  }
 
 void _onItemTapped(int index) {
     setState(() {
@@ -58,7 +63,9 @@ void _onItemTapped(int index) {
         ],
       ),
       body: Center(
-        child: _widgetOptions.elementAt(selectedIndex),
+        child: Container(
+          child: _mainOptions().elementAt(selectedIndex)
+          ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

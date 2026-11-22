@@ -12,6 +12,10 @@ class StoredUser {
     final String? user = await _storage.read(key: 'id');
     return user;
   }
+  Future<String?> getStoredMembership() async {
+    final String? membershipId = await _storage.read(key: 'membershipId');
+    return membershipId;
+  }
 
   Future<void> removeStoredUser() async {
     await _storage.deleteAll();

@@ -38,11 +38,8 @@ class DataServices {
  
   
   void setJsonUser(String id) async {
-   var userList = await getUsersList();
+    var userList = await getUsersList();
     var user = userList.where((x) => x.id == id).firstOrNull;
-      print(user);
-      print(user!.name);
-      List<Membership> membershipList = await getMembershipList();
-      print(membershipList);
+      print(user!.toJson());
     }
 }

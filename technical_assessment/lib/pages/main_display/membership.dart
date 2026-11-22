@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:technical_assessment/pages/membership_levels/plus/plus_membership.dart';
+import 'package:technical_assessment/pages/membership_levels/premium/premium_membership.dart';
+import 'package:technical_assessment/pages/membership_levels/starter/starter_membership.dart';
+
 
 class MembershipPage extends StatefulWidget {
-  const MembershipPage({super.key});
-
+  const MembershipPage({super.key,required this.membershipLevel});
+  final String? membershipLevel;
   @override
   State<MembershipPage> createState() => _MembershipPageState();
 }
@@ -10,39 +14,14 @@ class MembershipPage extends StatefulWidget {
 class _MembershipPageState extends State<MembershipPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ListView(
-          padding: EdgeInsets.all(10),
-          children: [
-            ListTile(
-              title: Text('Title 1',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-              style: ListTileStyle.drawer,
-              trailing: Icon(Icons.arrow_forward_outlined),
-            ),
-            ListTile(
-              title: Text('Title 2',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-              style: ListTileStyle.drawer,
-            ),
-            ListTile(
-              title: Text('Title 3',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-              style: ListTileStyle.drawer,
-            ),
-            ListTile(
-              title: Text('Title 4',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-              style: ListTileStyle.drawer,
-            ),
-            ListTile(
-              title: Text('Title 5',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-              style: ListTileStyle.drawer,
-            ),
-            ListTile(
-              title: Text('Title 6',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-              style: ListTileStyle.drawer,
-            ),
-          ],
-        ),
-      ),
-    );
+    if (widget.membershipLevel == "plus") {
+        return PlusMembershipWidget();
+     } 
+     else if(widget.membershipLevel == "premium"){
+       return PremiumMembershipWidget();
+     }
+     else{
+       return StarterMembershipWidget();
+     }
   }
 }
