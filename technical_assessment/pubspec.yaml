@@ -37,6 +37,7 @@ dependencies:
   flutter_secure_storage: ^11.2.0
 
   material_ui: any
+  path_provider: ^2.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

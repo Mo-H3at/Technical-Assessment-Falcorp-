@@ -27,7 +27,6 @@ void setUserFunction()async{
   await Future.delayed(const Duration(seconds: 1));
   user = await StoredUser().getStoredUser();
   membershipLevel = await StoredUser().getStoredMembership();
-  DataServices().setJsonUser(user);
   setState(() {});
   busy = false;
 }
