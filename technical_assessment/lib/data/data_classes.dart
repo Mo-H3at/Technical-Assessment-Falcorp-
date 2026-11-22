@@ -34,6 +34,13 @@ class Membership{
   factory Membership.fromJson(Map<String,dynamic> json){
     return Membership(id: json['id'], name: json['name'],features: json['features']);
   }
+
+  Map<String,dynamic> toJson(){
+    return {
+    "id": id,
+    "name": name,
+    "features":features
+  };}
 }
 
 List<Membership> getMembershipListJson(String item) => 

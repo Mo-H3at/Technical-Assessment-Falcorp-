@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/pages/settings/delete_profile.dart';
 import 'package:technical_assessment/pages/settings/sign_out.dart';
 

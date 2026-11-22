@@ -1,44 +1,51 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+
+import '../../../data/data_classes.dart';
+import '../../../data/services.dart';
 
 class PlusMembershipWidget extends StatefulWidget {
-  const PlusMembershipWidget({super.key});
+  const PlusMembershipWidget({super.key, required this.membership});
+
+  final String? membership;
 
   @override
   State<PlusMembershipWidget> createState() => _PlusMembershipWidgetState();
 }
 
 class _PlusMembershipWidgetState extends State<PlusMembershipWidget> {
+   late final Membership membershipDetail;
+
+  bool busy = false;
+
+  Future<void> getMembership() async {
+    busy = true;
+    List<Membership> membershipList = await DataServices().getMembershipList();
+    setState(() {
+      membershipDetail = membershipList.where((x) => x.id == widget.membership).first;
+    });
+    busy = false;
+  }
+  
+  @override
+  void initState() {
+    getMembership();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return busy ?
+    CircularProgressIndicator():
+     ListView.builder(
       padding: EdgeInsets.all(10),
-      children: [
-        ListTile(
-          title: Text('Title 1',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+      itemCount: membershipDetail.features.length,
+      itemBuilder: (BuildContext context, int index){
+        return ListTile(
+          title: Text(membershipDetail.features[index]['name'],style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
           style: ListTileStyle.drawer,
           trailing: Icon(Icons.arrow_forward_outlined),
-        ),
-        ListTile(
-          title: Text('Title 2',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-          style: ListTileStyle.drawer,
-        ),
-        ListTile(
-          title: Text('Title 3',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-          style: ListTileStyle.drawer,
-        ),
-        ListTile(
-          title: Text('Title 4',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-          style: ListTileStyle.drawer,
-        ),
-        ListTile(
-          title: Text('Title 5',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-          style: ListTileStyle.drawer,
-        ),
-        ListTile(
-          title: Text('Title 6',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-          style: ListTileStyle.drawer,
-        ),
-      ],
+        );
+      }
     );
   }
 }

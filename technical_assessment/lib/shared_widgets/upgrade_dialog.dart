@@ -1,8 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class UpgradeMembershipDialog extends StatefulWidget {
-  const UpgradeMembershipDialog({super.key});
+  const UpgradeMembershipDialog({super.key, required this.membershipId, required this.newMembership});
 
+  final String? membershipId;
+  final String? newMembership;
   @override
   State<UpgradeMembershipDialog> createState() => _UpgradeMembershipDialogState();
 }
@@ -17,7 +19,7 @@ class _UpgradeMembershipDialogState extends State<UpgradeMembershipDialog> {
       actionsAlignment: MainAxisAlignment.spaceAround,
       contentPadding: const EdgeInsets.all(20),
       actionsPadding: EdgeInsets.all(5),
-      title: const Text('Do you confirm to the following membership upgrade?', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      title: Text('Do you confirm upgrading your membership to the ${widget.newMembership} tier?', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
       actions: [
         ElevatedButton(
           onPressed: () => Navigator.pop(context),

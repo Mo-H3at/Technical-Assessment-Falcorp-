@@ -1,16 +1,41 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:technical_assessment/data/data_classes.dart';
+import 'package:technical_assessment/data/services.dart';
 
 import '../../../shared_widgets/upgrade_dialog.dart';
 
 class StarterUpgradeWidget extends StatefulWidget {
-  const StarterUpgradeWidget({super.key});
-  
+  const StarterUpgradeWidget({super.key,required this.membershipId});
+  final String? membershipId;
   @override
   State<StarterUpgradeWidget> createState() => _StarterUpgradeWidgetState();
 }
 
 class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
+
   final CarouselController _carouselController = CarouselController(initialItem: 0);
+  bool busy = false;
+  late final List<Membership> _membershipList;
+  late final List<Features> featuresList;
+  String? membershipId;
+  String? membershipName;
+
+  Future<void> getUpgradeOptions() async{
+    busy = true;
+      _membershipList = await DataServices().getMembershipList();
+     setState(() {
+       _membershipList.removeWhere((x) =>x.id == widget.membershipId);
+       membershipId = widget.membershipId;
+     });
+      
+    busy = false;
+  }
+
+  @override
+  void initState() {
+    getUpgradeOptions();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -20,57 +45,53 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return busy? 
+      CircularProgressIndicator():
+      Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           flex: 1,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CarouselView.weighted(
+            child: CarouselView.weightedBuilder(
               flexWeights: <int>[1],
               itemSnapping: true,
               controller: _carouselController,
               scrollDirection: Axis.horizontal,
-              children: [
-                SizedBox(
-                  child: Card(
-                    elevation: 0.2,
-                    color: Colors.red[700],
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Upgrade to Plus",
-                            style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
-                            textAlign: TextAlign.center,softWrap: false,),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Card(
+              itemCount: _membershipList.length,
+              onIndexChanged: (value) {
+                setState(() {
+                  membershipId = _membershipList[value].id;
+                  membershipName = _membershipList[value].name;
+                });
+              },
+              itemBuilder: (BuildContext context, int index){
+                return Card(
                   elevation: 0.2,
-                  color: const Color.fromARGB(255, 103, 243, 33),
+                  color: Colors.primaries[index % Colors.primaries.length],
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Upgrade to Premuim",
+                        Text(_membershipList[index].name,
                           style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
                           textAlign: TextAlign.center,softWrap: false,)
                       ],
                     ),
                   ),
-                ),
-              ]
+                );
+              } 
             ),
           ),
         ),
         Expanded(
           flex: 0,
           child: ElevatedButton(
-            onPressed: () => showDialog(context: context, builder: (context)=> UpgradeMembershipDialog()),
+            onPressed: () {
+              showDialog(context: context, 
+                builder: (context)=> UpgradeMembershipDialog(membershipId: membershipId,newMembership: membershipName,));
+            },
              child: Text("Upgrade Membership")))
       ],
     );

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/pages/sign_in/sign_in.dart';
 
 class SignUpPage extends StatefulWidget {

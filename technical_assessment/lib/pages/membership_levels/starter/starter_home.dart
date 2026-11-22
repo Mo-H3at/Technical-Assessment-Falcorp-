@@ -1,81 +1,55 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
+
+import '../../../data/data_classes.dart';
+import '../../../data/services.dart';
 
 class StarterHomeWidget extends StatefulWidget {
-  const StarterHomeWidget({super.key});
-
+  const StarterHomeWidget({super.key,required this.membership});
+  final String? membership;
   @override
   State<StarterHomeWidget> createState() => _StarterHomeWidgetState();
 }
 
 class _StarterHomeWidgetState extends State<StarterHomeWidget> {
+
+  late final Membership membershipDetail;
+  bool busy = false;
+
+  Future<void> getMembership() async {
+    busy = true;
+    List<Membership> membershipList = await DataServices().getMembershipList();
+    setState(() {
+      membershipDetail = membershipList.where((x) => x.id == widget.membership).first;
+    });
+    busy = false;
+  }
+  @override
+  void initState() {
+    getMembership();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 2,
-      mainAxisSpacing: 4,
-      crossAxisSpacing: 5,
-      children: [
-        Card(
+    return busy? 
+    CircularProgressIndicator():
+     GridView.builder(
+     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1), 
+      itemCount: membershipDetail.features.length,
+      itemBuilder: (BuildContext context,int index){
+        return Card(
           elevation: 0.2,
           color: Colors.grey[700],
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Filled Space",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
               ],
             ),
           ),
-        ),
-        Card(
-          elevation: 0.2,
-          color: Colors.blue[100],
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Filled Space 2",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
-              ],
-            ),
-          ),
-        ),
-        Card(
-          elevation: 0.2,
-          color: Colors.black,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Filled Space 3",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),textAlign: TextAlign.center,),
-              ],
-            ),
-          ),
-        ),
-        Card(
-          elevation: 0.2,
-          color: Colors.yellow[500],
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Filled Space 4",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
-              ],
-            ),
-          ),
-        ),
-        Card(
-          elevation: 0.2,
-          color: Colors.red[100],
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Filled Space 5",style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
-              ],
-            ),
-          ),
-        ),
-      ],
+        );
+      }
     );
   }
 }

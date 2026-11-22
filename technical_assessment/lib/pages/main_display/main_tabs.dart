@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/data/services.dart';
 import 'package:technical_assessment/pages/main_display/home.dart';
 import 'package:technical_assessment/pages/main_display/membership.dart';
@@ -6,8 +6,9 @@ import 'package:technical_assessment/pages/main_display/upgrade_membership.dart'
 import 'package:technical_assessment/pages/settings/settings.dart';
 import 'package:technical_assessment/storage/stored_user.dart';
 
+
 class MainTabsPage extends StatefulWidget {
-  const MainTabsPage({super.key, required});
+  const MainTabsPage({super.key});
 
   @override
   State<MainTabsPage> createState() => _MainTabsPageState();
@@ -17,14 +18,20 @@ class _MainTabsPageState extends State<MainTabsPage> {
 
 int selectedIndex = 0;
 String title = 'Welcome';
+bool busy = false;
 var user;
 var membershipLevel;
 
 void setUserFunction()async{
+  busy = true;
+  await Future.delayed(const Duration(seconds: 1));
   user = await StoredUser().getStoredUser();
   membershipLevel = await StoredUser().getStoredMembership();
   DataServices().setJsonUser(user);
+  setState(() {});
+  busy = false;
 }
+
 
 @override
   void initState() {
@@ -35,8 +42,8 @@ void setUserFunction()async{
   List<Widget> _mainOptions(){
      final List<Widget> widgetOptions = <Widget>[
       HomePage(membershipLevel: membershipLevel),
-      MembershipPage(membershipLevel: membershipLevel,),
-      UpgradeMembershipPage(membershipLevel: membershipLevel,),
+      MembershipPage(membershipLevel: membershipLevel),
+      UpgradeMembershipPage(membershipId: membershipLevel),
     ];
     return widgetOptions;
   }
@@ -63,7 +70,9 @@ void _onItemTapped(int index) {
         ],
       ),
       body: Center(
-        child: Container(
+        child: busy ? 
+        CircularProgressIndicator() : 
+        Container(
           child: _mainOptions().elementAt(selectedIndex)
           ),
       ),

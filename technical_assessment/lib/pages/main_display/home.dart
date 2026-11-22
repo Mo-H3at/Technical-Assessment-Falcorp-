@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/pages/membership_levels/plus/plus_home.dart';
 import 'package:technical_assessment/pages/membership_levels/premium/premium_home.dart';
 import 'package:technical_assessment/pages/membership_levels/starter/starter_home.dart';
@@ -12,16 +12,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  
+
   @override
   Widget build(BuildContext context) {
      if (widget.membershipLevel == "plus") {
-        return PlusHomeWidget();
+        return PlusHomeWidget(membership: widget.membershipLevel);
      } 
      else if(widget.membershipLevel == "premium"){
        return PremiumHomeWidget();
      }
      else{
-       return StarterHomeWidget();
+       return StarterHomeWidget(membership: widget.membershipLevel);
      }
      
   }
