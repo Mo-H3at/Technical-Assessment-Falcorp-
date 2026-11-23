@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/pages/sign_in/sign_in.dart';
+import 'package:technical_assessment/validations/validations.dart';
 
 import '../../data/data_classes.dart';
 import '../../data/services.dart';
@@ -12,12 +13,12 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  late TextEditingController nameController;
-  late TextEditingController emailController;
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
 
   late List<Membership> membershipList;
   late List<dynamic> membershipOptions = [{'id': '','name':''}];
-  var membershipId;
+  var membershipId = '';
   bool busy = false;
 
   Future<void> getMembershipOptions() async {
@@ -32,8 +33,6 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     getMembershipOptions();
-    nameController = TextEditingController();
-    emailController = TextEditingController();
     super.initState();
   }
 
@@ -113,50 +112,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                   ),
                    onTap: () {
-                    if(emailController.text =='' && nameController.text =='' && membershipId == null)
-                     {return;}
-                     else{
-                    showDialog(context: context,
-                    barrierDismissible: false,
-                     builder: (context) =>
-                      Dialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          margin: EdgeInsets.all(15),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            spacing: 20,
-                            children: [
-                              const Text('Are you sure?', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                              Container(
-                                padding: EdgeInsets.all(8),
-                                child: Row(
-                                  spacing: 8,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: const Text('No'))
-                                    ),
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          signUpCheck();
-                                        } ,
-                                        child: const Text('Yes'))
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ));
-                    }
+                    signUpCheck();
                   },
                 ),
                ),
@@ -169,29 +125,163 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void signUpCheck()async{
-     if(await DataServices().signUp(nameController.text, emailController.text, membershipId))
+    var name = nameController.text.trim();
+    var email = emailController.text.trim();
+
+    if(name == "" || email == ""){
+      showDialog(context: context, builder: (context) =>
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          icon: Icon(Icons.warning_amber_rounded,),
+          title: const Text('Please fill in All fields', style: TextStyle(fontSize: 14)),
+          actionsPadding: EdgeInsets.all(5),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Okay')),
+          ],
+        )
+      );
+      return;
+    }
+    if(!email.isEmail()){
+      showDialog(context: context, builder: (context) =>
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          icon: Icon(Icons.warning_amber_rounded,),
+          title: const Text("Please enter correct email format", style: TextStyle(fontSize: 14)),
+          content: const Text("Example: user@emaple.com", style: TextStyle(fontSize: 10)),
+          actionsPadding: EdgeInsets.all(5),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Okay')),
+          ],
+        )
+      );
+      return;
+    }
+
+    if(membershipId == ""){
+      showDialog(context: context, builder: (context) =>
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          icon: Icon(Icons.warning_amber_rounded,),
+          title: const Text('Please select membership tier', style: TextStyle(fontSize: 14)),
+          actionsPadding: EdgeInsets.all(5),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Okay')),
+          ],
+        )
+      );
+      return;
+    }
+  showDialog(context: context,
+    barrierDismissible: false,
+     builder: (context) =>
+      Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          margin: EdgeInsets.all(15),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 20,
+            children: [
+              const Text('Are you sure?', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Container(
+                padding: EdgeInsets.all(8),
+                child: Row(
+                  spacing: 8,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('No'))
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          signUp();
+                        } ,
+                        child: const Text('Yes'))
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ));
+  }
+
+  void signUp() async {
+    Navigator.pop(context);
+
+    if(await DataServices().signUp(nameController.text, emailController.text, membershipId))
     {
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => SignInPage()), (route) => false);
+      successful();
     } else{
       showDialog(context: context, builder: (context) =>
-            AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              icon: Icon(Icons.warning_amber_rounded,),
-              title: const Text('Please enter correct email', style: TextStyle(fontSize: 14)),
-              actionsPadding: EdgeInsets.all(5),
-              actionsAlignment: MainAxisAlignment.spaceAround,
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Okay')),
-              ],
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          icon: Icon(Icons.warning_amber_rounded,),
+          title: const Text('Please enter correct email', style: TextStyle(fontSize: 14)),
+          actionsPadding: EdgeInsets.all(5),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Okay')),
+          ],
         )
       );
     }  
+  }
+
+  void successful(){
+    showDialog(context: context, builder: (context) =>
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          icon: Icon(Icons.person_add_alt_1_rounded,),
+          title: const Text('Your Profile has been saved', style: TextStyle(fontSize: 14)),
+          actionsPadding: EdgeInsets.all(5),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(context,
+                  MaterialPageRoute(builder: (context) => SignInPage()), (route) => false);
+              },
+              child: const Text('Okay')),
+          ],
+        )
+      );
   }
 }
