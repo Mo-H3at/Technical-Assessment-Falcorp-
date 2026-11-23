@@ -58,9 +58,6 @@ class DataServices {
     await userFileList.writeAsString(JsonEncoder.withIndent(' ').convert(users.map((x) => x.toJson()).toList()));
   }
 
-  
-  
-
   Future<bool> signIn(String email) async{
     bool success = false;
     List<User>? userList = await getUserFileList();
@@ -71,7 +68,7 @@ class DataServices {
       getUserFileList();
       success = true;
     }else{
-      print(userList);
+      print(userList.map((x) => x.toJson()));
     }
     return success;
   }

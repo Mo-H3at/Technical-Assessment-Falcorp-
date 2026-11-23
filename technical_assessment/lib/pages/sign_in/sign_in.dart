@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/data/services.dart';
 import 'package:technical_assessment/pages/main_display/main_tabs.dart';
 import 'package:technical_assessment/pages/sign_up/sign_up.dart';
+import 'package:technical_assessment/validations/validations.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -12,22 +13,11 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
 
-  late TextEditingController nameController;
-  late TextEditingController emailController;
-  late FocusNode nameNode;
-  late FocusNode emailNode;
-
-  @override
-  void initState() {
-    emailController = TextEditingController();
-    emailNode = FocusNode();
-    super.initState();
-  }
+  TextEditingController emailController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
-    emailNode.dispose();
     super.dispose();
   }
 
@@ -45,7 +35,6 @@ class _SignInPageState extends State<SignInPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: emailController,
-                focusNode: emailNode,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: 'Enter Email',
@@ -77,6 +66,31 @@ class _SignInPageState extends State<SignInPage> {
 
   
   void signInCheck()async{
+    
+    var email = emailController.text.trim();
+    if(!email.isEmail()){
+      showDialog(context: context, builder: (context) =>
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          icon: Icon(Icons.warning_amber_rounded,),
+          title: const Text("Please enter correct email format", style: TextStyle(fontSize: 14)),
+          content: const Text("Example: user@emaple.com", style: TextStyle(fontSize: 10)),
+          actionsPadding: EdgeInsets.all(5),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Okay')),
+          ],
+        )
+      );
+      return;
+    }
+
     if(await DataServices().signIn(emailController.text))
     {
       Navigator.pushReplacement(context,
