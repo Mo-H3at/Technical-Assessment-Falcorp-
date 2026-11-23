@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:technical_assessment/pages/membership_levels/plus/plus_membership.dart';
-import 'package:technical_assessment/pages/membership_levels/premium/premium_membership.dart';
-import 'package:technical_assessment/pages/membership_levels/starter/starter_membership.dart';
+
+import '../../data/data_classes.dart';
+import '../../data/services.dart';
 
 
 class MembershipPage extends StatefulWidget {
@@ -13,17 +13,44 @@ class MembershipPage extends StatefulWidget {
 }
 
 class _MembershipPageState extends State<MembershipPage> {
+
+  late final Membership membershipDetail;
+  bool busy = false;
+  bool tileExpanded = false;
+
+  Future<void> getMembership() async {
+    busy = true;
+    List<Membership> membershipList = await DataServices().getMembershipList();
+    setState(() {
+      membershipDetail = membershipList.where((x) => x.id == widget.membershipLevel).first;
+    });
+    busy = false;
+  }
+  
+  @override
+  void initState() {
+    getMembership();
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
-    if (widget.membershipLevel == "plus") {
-        return PlusMembershipWidget(membership: widget.membershipLevel);
-     } 
-     else if(widget.membershipLevel == "premium"){
-       return PremiumMembershipWidget(membership: widget.membershipLevel);
-     }
-     else{
-       return StarterMembershipWidget(membership: widget.membershipLevel);
-     }
+    return busy ?
+    CircularProgressIndicator():
+     ListView.builder(
+      padding: EdgeInsets.all(10),
+      itemCount: membershipDetail.features.length,
+      itemBuilder: (BuildContext context, int index){
+        return ExpansionTile(
+          collapsedIconColor: const Color.fromARGB(255, 0, 0, 0),
+          title: Text(membershipDetail.features[index]['name'],style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          tilePadding: EdgeInsets.all(1),
+          childrenPadding: const EdgeInsets.all(8.0),
+          children: [
+            Text('This text only exists to show the tiles expand accordingly')
+            ],
+        );
+      }
+    );
   }
 }

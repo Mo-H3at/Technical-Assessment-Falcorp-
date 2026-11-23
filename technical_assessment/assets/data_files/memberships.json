@@ -24,6 +24,14 @@
       {
         "id": "member_offers",
         "name": "Member Offers"
+      },
+      {
+        "id": "starter_guides",
+        "name": "Starter Guides"
+      },
+      {
+        "id": "member_benefits",
+        "name": "Member Benefits"
       }
     ]
   },
@@ -38,6 +46,18 @@
       {
         "id": "priority_support",
         "name": "Priority Support"
+      },
+      {
+        "id": "member_offers",
+        "name": "Member Offers"
+      },
+      {
+        "id": "premium_guides",
+        "name": "Premium Guides"
+      },
+      {
+        "id": "premium_benefits",
+        "name": "Premium Benefits"
       }
     ]
   }
