@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../data/data_classes.dart';
 import '../../../data/services.dart';
+import '../../features/main_feature.dart';
 
 class PremiumHomeWidget extends StatefulWidget {
   const PremiumHomeWidget({super.key,required this.membership});
@@ -36,21 +37,25 @@ class _PremiumHomeWidgetState extends State<PremiumHomeWidget> {
      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
       mainAxisSpacing: 3,
-      
+
       ), 
       itemCount: membershipDetail.features.length,
       itemBuilder: (BuildContext context,int index){
         return Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Card(
-            elevation: 0.2,
-            color: const Color.fromARGB(255, 35, 255, 23),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
-                ],
+          child: InkWell(
+            onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MainFeaturePage(feature:membershipDetail.features[index]))),
+            child: Card(
+              elevation: 0.2,
+              color: const Color.fromARGB(255, 4, 149, 89),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  ],
+                ),
               ),
             ),
           ),

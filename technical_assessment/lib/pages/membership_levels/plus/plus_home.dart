@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:technical_assessment/pages/features/main_feature.dart';
 
 import '../../../data/data_classes.dart';
 import '../../../data/services.dart';
@@ -43,15 +44,19 @@ class _PlusHomeWidgetState extends State<PlusHomeWidget> {
           ), 
           itemCount: membershipDetail.features.length,
           itemBuilder: (BuildContext context,int index){
-            return Card(
-              elevation: 0.2,
-              color: const Color.fromARGB(255, 240, 79, 79),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
-                  ],
+            return InkWell(
+              onTap: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainFeaturePage(feature:membershipDetail.features[index]))),
+              child: Card(
+                elevation: 0.2,
+                color: const Color.fromARGB(255, 240, 79, 79),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                    ],
+                  ),
                 ),
               ),
             );

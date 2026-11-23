@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../data/data_classes.dart';
 import '../../../data/services.dart';
+import '../../features/main_feature.dart';
 
 class StarterHomeWidget extends StatefulWidget {
   const StarterHomeWidget({super.key,required this.membership});
@@ -39,15 +40,19 @@ class _StarterHomeWidgetState extends State<StarterHomeWidget> {
       itemBuilder: (BuildContext context,int index){
         return Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Card(
-            elevation: 0.2,
-            color: const Color.fromARGB(255, 14, 158, 236),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
-                ],
+          child: InkWell(
+            onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MainFeaturePage(feature:membershipDetail.features[index]))),
+            child: Card(
+              elevation: 0.2,
+              color: const Color.fromARGB(255, 14, 158, 236),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  ],
+                ),
               ),
             ),
           ),
