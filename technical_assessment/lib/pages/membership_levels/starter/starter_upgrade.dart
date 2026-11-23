@@ -5,7 +5,9 @@ import 'package:technical_assessment/data/services.dart';
 import '../../../shared_widgets/upgrade_dialog.dart';
 
 class StarterUpgradeWidget extends StatefulWidget {
-  const StarterUpgradeWidget({super.key,required this.membershipId});
+  const StarterUpgradeWidget({super.key,required this.id,required this.membershipId});
+
+  final String id;
   final String? membershipId;
   @override
   State<StarterUpgradeWidget> createState() => _StarterUpgradeWidgetState();
@@ -16,6 +18,7 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
   final CarouselController _carouselController = CarouselController(initialItem: 0);
   bool busy = false;
   late final List<Membership> _membershipList;
+  late User user;
   List<dynamic> featuresList = [];
   String? membershipId;
   String? membershipName;
@@ -23,6 +26,7 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
   Future<void> getUpgradeOptions() async{
     busy = true;
       _membershipList = await DataServices().getMembershipList();
+    user = await DataServices().getUser(widget.id);
      setState(() {
        _membershipList.removeWhere((x) =>x.id == widget.membershipId);
        membershipId = widget.membershipId;
@@ -111,7 +115,8 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
           child: ElevatedButton(
             onPressed: () {
               showDialog(context: context, 
-                builder: (context)=> UpgradeMembershipDialog(membershipId: membershipId,newMembership: membershipName,));
+                builder: (context)=> UpgradeMembershipDialog(Id: widget.id,membershipId: membershipId!,
+                  newMembership: user,newMembershipName: membershipName,));
             },
              child: Text("Upgrade Membership")))
       ],

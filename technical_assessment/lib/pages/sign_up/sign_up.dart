@@ -1,6 +1,9 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/pages/sign_in/sign_in.dart';
 
+import '../../data/data_classes.dart';
+import '../../data/services.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -11,17 +14,26 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   late TextEditingController nameController;
   late TextEditingController emailController;
-  late FocusNode nameNode;
-  late FocusNode emailNode;
-  final List<String> list = <String>["Starter", "Plus","Premium"];
-  String? dropdownvalue = "Select Membership";
+
+  late List<Membership> membershipList;
+  late List<dynamic> membershipOptions = [{'id': '','name':''}];
+  var membershipId;
+  bool busy = false;
+
+  Future<void> getMembershipOptions() async {
+    busy = true;
+    membershipList = await DataServices().getMembershipList();
+    setState(() {
+      membershipOptions = membershipList.map((x) => {'id': x.id,'name':x.name}).toList();
+    });
+    busy = false;
+  }
 
   @override
   void initState() {
+    getMembershipOptions();
     nameController = TextEditingController();
     emailController = TextEditingController();
-    nameNode = FocusNode();
-    emailNode = FocusNode();
     super.initState();
   }
 
@@ -29,8 +41,6 @@ class _SignUpPageState extends State<SignUpPage> {
   void dispose() {
     nameController.dispose();
     emailController.dispose();
-    nameNode.dispose();
-    emailNode.dispose();
     super.dispose();
   }
 
@@ -40,97 +50,148 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Scaffold(
         appBar: AppBar(),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            spacing: 20,
-            children: [
-              TextField(
-                controller: nameController,
-                focusNode: nameNode,
-                onSubmitted: (value) => emailNode.nextFocus(),
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: 'Enter name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              spacing: 20,
+              children: [
+                TextField(
+                  controller: nameController,
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    labelText: 'Enter name',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
-              ),
-              TextField(
-                controller: emailController,
-                focusNode: emailNode,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: 'Enter Email',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                TextField(
+                  controller: emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Email',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                color: Colors.blue,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: EdgeInsets.all(10),
-                child: InkWell(
-                 child: Center(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Continue',
-                        style: TextStyle(fontWeight: FontWeight.bold),),
-                      Icon(Icons.keyboard_double_arrow_right,),
-                    ],
-                  ),
+                Center(
+                  child: DropdownMenu(
+                    label: Text('Please Select your membership tier'),
+                    onSelected: (value) {
+                      setState(() {
+                        membershipId = value;
+                      });
+                    },
+                    dropdownMenuEntries:membershipOptions.map<DropdownMenuEntry>((x) {
+                    return busy?DropdownMenuEntry(
+                      value: '',
+                      label: ''
+                      ):DropdownMenuEntry(
+                      value: x['id'],
+                      label: x['name']
+                      );
+                    }).toList(),),
                 ),
-                 onTap: () {
-                  showDialog(context: context,
-                  barrierDismissible: false,
-                   builder: (context) =>
-                    Dialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        margin: EdgeInsets.all(15),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          spacing: 20,
-                          children: [
-                            const Text('Are you sure?', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                            Container(
-                              padding: EdgeInsets.all(8),
-                              child: Row(
-                                spacing: 8,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text('No'))
-                                  ),
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: () => Navigator.pushAndRemoveUntil(context,
-                                            MaterialPageRoute(builder: (context) => SignInPage()), (route) => false),
-                                      child: const Text('Yes'))
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                Container(
+                  color: Colors.blue,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.all(10),
+                  child: InkWell(
+                   child: Center(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Continue',
+                          style: TextStyle(fontWeight: FontWeight.bold),),
+                        Icon(Icons.keyboard_double_arrow_right,),
+                      ],
+                    ),
+                  ),
+                   onTap: () {
+                    if(emailController.text =='' && nameController.text =='' && membershipId == null)
+                     {return;}
+                     else{
+                    showDialog(context: context,
+                    barrierDismissible: false,
+                     builder: (context) =>
+                      Dialog(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                    ));
-                },
-              ),
-             ),
-            ],
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          margin: EdgeInsets.all(15),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            spacing: 20,
+                            children: [
+                              const Text('Are you sure?', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                              Container(
+                                padding: EdgeInsets.all(8),
+                                child: Row(
+                                  spacing: 8,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('No'))
+                                    ),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          signUpCheck();
+                                        } ,
+                                        child: const Text('Yes'))
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ));
+                    }
+                  },
+                ),
+               ),
+              ],
+            ),
           ),
         ),
       )
     );
+  }
+
+  void signUpCheck()async{
+     if(await DataServices().signUp(nameController.text, emailController.text, membershipId))
+    {
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => SignInPage()), (route) => false);
+    } else{
+      showDialog(context: context, builder: (context) =>
+            AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              icon: Icon(Icons.warning_amber_rounded,),
+              title: const Text('Please enter correct email', style: TextStyle(fontSize: 14)),
+              actionsPadding: EdgeInsets.all(5),
+              actionsAlignment: MainAxisAlignment.spaceAround,
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Okay')),
+              ],
+        )
+      );
+    }  
   }
 }

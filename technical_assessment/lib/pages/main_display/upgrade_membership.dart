@@ -4,7 +4,8 @@ import 'package:technical_assessment/pages/membership_levels/premium/premium_upg
 import 'package:technical_assessment/pages/membership_levels/starter/starter_upgrade.dart';
 
 class UpgradeMembershipPage extends StatefulWidget {
-  const UpgradeMembershipPage({super.key,required this.membershipId});
+  const UpgradeMembershipPage({super.key,required this.id,required this.membershipId});
+  final String id;
   final String? membershipId;
 
   @override
@@ -16,13 +17,13 @@ class _UpgradeMembershipPageState extends State<UpgradeMembershipPage> {
   @override
   Widget build(BuildContext context) {
     if (widget.membershipId == "plus") {
-        return PlusUpgradeWidget(membershipId: widget.membershipId);
+        return PlusUpgradeWidget(membershipId: widget.membershipId,id: widget.id);
      } 
      else if(widget.membershipId == "premium"){
        return PremiumUpgradeWidget();
      }
      else{
-       return StarterUpgradeWidget(membershipId: widget.membershipId);
+       return StarterUpgradeWidget(membershipId: widget.membershipId, id: widget.id,);
      }
   }
 }

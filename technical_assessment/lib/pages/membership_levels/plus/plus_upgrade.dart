@@ -5,27 +5,30 @@ import '../../../data/services.dart';
 import '../../../shared_widgets/upgrade_dialog.dart';
 
 class PlusUpgradeWidget extends StatefulWidget {
-  const PlusUpgradeWidget({super.key,required this.membershipId});
+  const PlusUpgradeWidget({super.key,required this.membershipId,required this.id});
   final String? membershipId;
+  final String id;
   @override
   State<PlusUpgradeWidget> createState() => _PlusUpgradeWidgetState();
 }
 
 class _PlusUpgradeWidgetState extends State<PlusUpgradeWidget> {
-   final CarouselController _carouselController = CarouselController(initialItem: 0);
-   bool busy = false;
-  late final List<Membership> _membershipList;
-   List<dynamic> featuresList = [];
-  late final Membership chosenMembership;
-  String? membershipId;
+
+    final CarouselController _carouselController = CarouselController(initialItem: 0);
+    bool busy = false;
+    late final List<Membership> _membershipList;
+    List<dynamic> featuresList = [];
+    late final Membership chosenMembership;
+    String? membershipId;
+    late User user;
 
   Future<void> getUpgradeOptions() async{
     busy = true;
       _membershipList = await DataServices().getMembershipList();
       chosenMembership = _membershipList.where((x) => x.id == 'premium').first;
-      
+      user = await DataServices().getUser(widget.id);
      setState(() {
-      membershipId = widget.membershipId;
+      membershipId = chosenMembership.id;
       featuresList = chosenMembership.features;
      });
     busy = false;
@@ -93,7 +96,8 @@ class _PlusUpgradeWidgetState extends State<PlusUpgradeWidget> {
           child: ElevatedButton(
             onPressed: () {
               showDialog(context: context, 
-                builder: (context)=> UpgradeMembershipDialog(membershipId: membershipId,newMembership: chosenMembership.name));
+                builder: (context)=> UpgradeMembershipDialog(Id: widget.id,membershipId: membershipId!,
+                  newMembership: user,newMembershipName:chosenMembership.name,));
             },
              child: Text("Upgrade Membership")))
       ],

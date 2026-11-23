@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -21,6 +22,12 @@ class DataServices {
     return listOfUsers;
   }
 
+  Future<List<Membership>> getMembershipList() async{
+    final membershipJsonList = await rootBundle.loadString(DataJson().membershipJsonPath);
+    final listOfMemberships = getMembershipListJson(membershipJsonList);
+    return listOfMemberships;
+  }
+
   Future<void> createUserFile(String users) async{
     final filePath = await getApplicationDocumentsDirectory();
     final userJsonList = File('${filePath.path}/${DataJson().savedUserPath}');
@@ -41,35 +48,68 @@ class DataServices {
     final local = await readFromUserFile();
     if(local != null) return local;
     final userList = await getUsersList();
-    await createUserFile(userList.toString());
-    print(userList);
+    await createUserFile(JsonEncoder.withIndent(' ').convert(userList.map((x) => x.toJson()).toList()));
     return userList;
   }
 
-  Future<List<Membership>> getMembershipList() async{
-    final membershipJsonList = await rootBundle.loadString(DataJson().membershipJsonPath);
-    final listOfMemberships = getMembershipListJson(membershipJsonList);
-    return listOfMemberships;
+  Future<void> save(List<User> users)async{
+    final filePath = await getApplicationDocumentsDirectory();
+    final userFileList = File('${filePath.path}/${DataJson().savedUserPath}');
+    await userFileList.writeAsString(JsonEncoder.withIndent(' ').convert(users.map((x) => x.toJson()).toList()));
   }
+
+  
   
 
   Future<bool> signIn(String email) async{
     bool success = false;
-    List<User> userList = await getUsersList();
+    List<User>? userList = await getUserFileList();
     
-    User? user = userList.where((x) => x.email == email).firstOrNull;
+    User? user = userList!.where((x) => x.email == email).firstOrNull;
     if(user != null){
       StoredUser().setStoredUser(user.id,user.membershipId);
       getUserFileList();
       success = true;
-    }
-    else{
-      print(user);
+    }else{
       print(userList);
     }
     return success;
   }
   
- 
-  
+ Future<bool> signUp(String name, String email, String membershipId) async{
+    bool success = false;
+    var userList = await getUserFileList();
+    
+    User user = User(id: 'usr_100${userList!.length+1}', name: name, email: email, membershipId: membershipId);
+    if(userList != null){
+      addUser(user);
+      success = true;
+    }
+    return success;
+  }
+
+  Future<void> addUser(User user)async{
+    final file = await readFromUserFile();
+    file!.add(user);
+    await save(file);
+  }
+
+  Future<User> getUser(String id)async{
+    final file = await readFromUserFile();
+    return file!.where((x)=>x.id==id).first;
+  }
+
+  Future<bool> updateMembership(String? id, User member) async{
+    
+      final file = await readFromUserFile();
+      final index = file!.indexWhere((x) => x.id == id);
+      print(index);
+      if(index == -1) return false;
+
+      file[index] = member;
+      print(file[index].toJson());
+      await save(file);
+      StoredUser().setStoredUser(member.id,member.membershipId);
+      return true;
+  }
 }

@@ -20,7 +20,7 @@ class _PremiumUpgradeWidgetState extends State<PremiumUpgradeWidget> {
           children: [
             Text("This is the Highest tier of your member and thus has no upgrade option",
               style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),
-              textAlign: TextAlign.center,softWrap: false,),
+              textAlign: TextAlign.center),
           ],
         ),
       ),

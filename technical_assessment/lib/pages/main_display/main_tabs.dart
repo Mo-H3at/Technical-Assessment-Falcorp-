@@ -1,5 +1,4 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:technical_assessment/data/services.dart';
 import 'package:technical_assessment/pages/main_display/home.dart';
 import 'package:technical_assessment/pages/main_display/membership.dart';
 import 'package:technical_assessment/pages/main_display/upgrade_membership.dart';
@@ -42,7 +41,7 @@ void setUserFunction()async{
      final List<Widget> widgetOptions = <Widget>[
       HomePage(membershipLevel: membershipLevel),
       MembershipPage(membershipLevel: membershipLevel),
-      UpgradeMembershipPage(membershipId: membershipLevel),
+      UpgradeMembershipPage(membershipId: membershipLevel, id: user,),
     ];
     return widgetOptions;
   }
