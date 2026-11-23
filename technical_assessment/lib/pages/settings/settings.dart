@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/pages/settings/delete_profile.dart';
 import 'package:technical_assessment/pages/settings/sign_out.dart';
+import 'package:technical_assessment/pages/settings/update_profile.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -42,9 +43,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 ),
               ),
-              onTap: () {
-                 
-              },
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UpdateProfilePage())),
             ),
             InkWell(
               child: Container(
