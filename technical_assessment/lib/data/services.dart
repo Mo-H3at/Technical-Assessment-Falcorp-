@@ -115,6 +115,20 @@ class DataServices {
       StoredUser().setStoredUser(member.id,member.membershipId);
       return true;
   }
+  Future<bool> updateUser(String? id, User member) async{
+      final file = await readFromUserFile();
+      final index = file!.indexWhere((x) => x.id == id);
+      
+      if(emailTaken(file, member.email)){
+        print("User Already Exists");
+        return false;
+      }
+      
+      file[index] = member;
+      await save(file);
+      StoredUser().setStoredUser(member.id,member.membershipId);
+      return true;
+  }
 
   Future<bool> deleteUser(String? id) async{
       final file = await readFromUserFile();
