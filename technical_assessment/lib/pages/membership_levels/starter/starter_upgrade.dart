@@ -29,11 +29,10 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
     user = await DataServices().getUser(widget.id);
      setState(() {
        _membershipList.removeWhere((x) =>x.id == widget.membershipId);
-       membershipId = widget.membershipId;
+       membershipId = _membershipList[0].id;
        membershipName = _membershipList[0].name;
        featuresList = _membershipList[0].features;
      });
-      
     busy = false;
   }
 
