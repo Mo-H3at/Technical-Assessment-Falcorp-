@@ -32,23 +32,32 @@ class _PlusHomeWidgetState extends State<PlusHomeWidget> {
   Widget build(BuildContext context) {
     return busy? 
     CircularProgressIndicator():
-     GridView.builder(
-     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), 
-      itemCount: membershipDetail.features.length,
-      itemBuilder: (BuildContext context,int index){
-        return Card(
-          elevation: 0.2,
-          color: const Color.fromARGB(255, 240, 79, 79),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
-              ],
-            ),
-          ),
-        );
-      }
-    );
+     Center(
+       child: Padding(
+         padding: const EdgeInsets.all(8.0),
+         child: GridView.builder(
+         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 3
+          ), 
+          itemCount: membershipDetail.features.length,
+          itemBuilder: (BuildContext context,int index){
+            return Card(
+              elevation: 0.2,
+              color: const Color.fromARGB(255, 240, 79, 79),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
+            );
+          }
+             ),
+       ),
+     );
   }
 }

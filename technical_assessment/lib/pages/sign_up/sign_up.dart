@@ -13,8 +13,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   late List<Membership> membershipList;
   late List<dynamic> membershipOptions = [{'id': '','name':''}];

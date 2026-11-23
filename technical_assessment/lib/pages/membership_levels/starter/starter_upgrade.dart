@@ -56,6 +56,13 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
+          flex: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Available Upgrades: ${_membershipList.length}",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          )
+        ),
+        Expanded(
           flex: 1,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -96,8 +103,10 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
                               itemCount: featuresList.length,
                               itemBuilder: (BuildContext context, int index){
                                 return ListTile(
+                                  contentPadding: EdgeInsets.all(5),
                                   title: Text(featuresList[index]['name'],style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),softWrap: false,),
-                                  subtitle: Text(featuresList[index]['name'],style: TextStyle(fontSize: 14),softWrap: false,),
+                                  subtitle: Text("Description text for what the feature in the upgrade offers",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
+                                  subtitleTextStyle: TextStyle(color: Colors.black),
                                 );
                               }
                             ),
@@ -113,6 +122,10 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
         Expanded(
           flex: 0,
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.black
+            ),
             onPressed: () {
               showDialog(context: context, 
                 builder: (context)=> UpgradeMembershipDialog(Id: widget.id,membershipId: membershipId!,

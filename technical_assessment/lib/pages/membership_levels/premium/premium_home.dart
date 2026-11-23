@@ -33,14 +33,18 @@ class _PremiumHomeWidgetState extends State<PremiumHomeWidget> {
     return busy? 
     CircularProgressIndicator():
      GridView.builder(
-     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1), 
+     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      mainAxisSpacing: 3,
+      
+      ), 
       itemCount: membershipDetail.features.length,
       itemBuilder: (BuildContext context,int index){
         return Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           child: Card(
             elevation: 0.2,
-            color: const Color.fromARGB(255, 236, 255, 23),
+            color: const Color.fromARGB(255, 35, 255, 23),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
