@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:technical_assessment/logo/logo.dart';
 import 'package:technical_assessment/pages/main_display/home.dart';
 import 'package:technical_assessment/pages/main_display/membership.dart';
 import 'package:technical_assessment/pages/main_display/upgrade_membership.dart';
@@ -57,8 +58,8 @@ void _onItemTapped(int index) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text(title),
-        backgroundColor: const Color.fromARGB(255, 63, 63, 63),
+        leading: LogoAvatar(),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         foregroundColor: Colors.white,
         actions: [
           IconButton(onPressed: (){

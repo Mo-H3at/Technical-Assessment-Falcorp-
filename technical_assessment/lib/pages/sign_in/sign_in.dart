@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/data/services.dart';
+import 'package:technical_assessment/logo/logo.dart';
 import 'package:technical_assessment/pages/main_display/main_tabs.dart';
 import 'package:technical_assessment/pages/sign_up/sign_up.dart';
 import 'package:technical_assessment/validations/validations.dart';
@@ -29,7 +30,9 @@ class _SignInPageState extends State<SignInPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 20,
           children: [
-            const Text('Please Sign In'),
+            Container(
+              child: LogoImage(),
+            ),
             
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -66,7 +69,7 @@ class _SignInPageState extends State<SignInPage> {
 
   
   void signInCheck()async{
-    
+
     var email = emailController.text.trim();
     if(!email.isEmail()){
       showDialog(context: context, builder: (context) =>
