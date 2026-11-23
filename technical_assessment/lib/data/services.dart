@@ -100,16 +100,38 @@ class DataServices {
   }
 
   Future<bool> updateMembership(String? id, User member) async{
-    
       final file = await readFromUserFile();
       final index = file!.indexWhere((x) => x.id == id);
-      print(index);
       if(index == -1) return false;
 
       file[index] = member;
-      print(file[index].toJson());
       await save(file);
       StoredUser().setStoredUser(member.id,member.membershipId);
       return true;
   }
+
+  Future<bool> deleteUser(String? id) async{
+      final file = await readFromUserFile();
+      final originalListLenght = file!.length;
+      print(file.map((x)=> x.toJson()));
+      file.removeWhere((x) => x.id == id);
+
+      if(file.length == originalListLenght) return false;
+      print('Deleted here:');
+      print(file.map((x)=> x.toJson()));
+      await save(file);
+      return true;
+  }
+
+  Future<bool> updateProfileDetails(String? id, User member) async{
+      final file = await readFromUserFile();
+      final index = file!.indexWhere((x) => x.id == id);
+      if(index == -1) return false;
+
+      file[index] = member;
+      await save(file);
+      return true;
+  }
+
+
 }
