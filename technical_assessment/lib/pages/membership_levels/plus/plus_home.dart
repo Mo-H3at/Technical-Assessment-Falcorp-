@@ -33,7 +33,7 @@ class _PlusHomeWidgetState extends State<PlusHomeWidget> {
     return busy? 
     CircularProgressIndicator():
      GridView.builder(
-     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1), 
+     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2), 
       itemCount: membershipDetail.features.length,
       itemBuilder: (BuildContext context,int index){
         return Card(

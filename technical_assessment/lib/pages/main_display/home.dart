@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
         return PlusHomeWidget(membership: widget.membershipLevel);
      } 
      else if(widget.membershipLevel == "premium"){
-       return PremiumHomeWidget();
+       return PremiumHomeWidget(membership: widget.membershipLevel);
      }
      else{
        return StarterHomeWidget(membership: widget.membershipLevel);

@@ -37,15 +37,18 @@ class _StarterHomeWidgetState extends State<StarterHomeWidget> {
      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1), 
       itemCount: membershipDetail.features.length,
       itemBuilder: (BuildContext context,int index){
-        return Card(
-          elevation: 0.2,
-          color: Colors.grey[700],
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
-              ],
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Card(
+            elevation: 0.2,
+            color: const Color.fromARGB(255, 14, 158, 236),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(membershipDetail.features[index]["name"],style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold,),textAlign: TextAlign.center,),
+                ],
+              ),
             ),
           ),
         );

@@ -30,6 +30,7 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
      setState(() {
        _membershipList.removeWhere((x) =>x.id == widget.membershipId);
        membershipId = widget.membershipId;
+       membershipName = _membershipList[0].name;
        featuresList = _membershipList[0].features;
      });
       
@@ -75,7 +76,7 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
               itemBuilder: (BuildContext context, int index){
                 return Card(
                   elevation: 0.2,
-                  color: Colors.primaries[index % Colors.primaries.length],
+                  color: Colors.primaries[index % Colors.primaries.length+2],
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
