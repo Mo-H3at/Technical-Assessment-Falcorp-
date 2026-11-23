@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/data/services.dart';
 import 'package:technical_assessment/pages/main_display/main_tabs.dart';
 
-import '../data/data_classes.dart';
+import '../../../data/data_classes.dart';
 
 class UpgradeMembershipDialog extends StatefulWidget {
   const UpgradeMembershipDialog({super.key, required this.Id,required this.membershipId, 

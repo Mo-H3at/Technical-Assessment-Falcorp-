@@ -45,18 +45,15 @@ class DataServices {
     return null;
   }
 
-  Future<List<User>?> getUserFileList()async {
-    final local = await readFromUserFile();
-    if(local != null) return local;
-    final userList = await getUsersList();
-    await createUserFile(JsonEncoder.withIndent(' ').convert(userList.map((x) => x.toJson()).toList()));
-    return userList;
+    Future<void> addUser(User user)async{
+    final file = await readFromUserFile();
+    file!.add(user);
+    await save(file);
   }
 
-  Future<void> save(List<User> users)async{
-    final filePath = await getApplicationDocumentsDirectory();
-    final userFileList = File('${filePath.path}/${DataJson().savedUserPath}');
-    await userFileList.writeAsString(JsonEncoder.withIndent(' ').convert(users.map((x) => x.toJson()).toList()));
+  Future<User> getUser(String id)async{
+    final file = await readFromUserFile();
+    return file!.where((x)=>x.id==id).first;
   }
 
   Future<bool> signIn(String email) async{
@@ -77,16 +74,13 @@ class DataServices {
  Future<bool> signUp(String name, String email, String membershipId) async{
     bool success = false;
     var userList = await getUserFileList();
-    
     User user = User(id: 'usr_100${userList!.length+1}', name: name, email: email, membershipId: membershipId);
    
     if(userList != null){
-
       if(emailTaken(userList, email)){
         print("User Already Exists");
         return success;
       }
-
       addUser(user);
       success = true;
     }
@@ -94,15 +88,18 @@ class DataServices {
     return success;
   }
 
-  Future<void> addUser(User user)async{
-    final file = await readFromUserFile();
-    file!.add(user);
-    await save(file);
+  Future<List<User>?> getUserFileList()async {
+    final local = await readFromUserFile();
+    if(local != null) return local;
+    final userList = await getUsersList();
+    await createUserFile(JsonEncoder.withIndent(' ').convert(userList.map((x) => x.toJson()).toList()));
+    return userList;
   }
 
-  Future<User> getUser(String id)async{
-    final file = await readFromUserFile();
-    return file!.where((x)=>x.id==id).first;
+  Future<void> save(List<User> users)async{
+    final filePath = await getApplicationDocumentsDirectory();
+    final userFileList = File('${filePath.path}/${DataJson().savedUserPath}');
+    await userFileList.writeAsString(JsonEncoder.withIndent(' ').convert(users.map((x) => x.toJson()).toList()));
   }
 
   Future<bool> updateMembership(String? id, User member) async{
@@ -115,12 +112,13 @@ class DataServices {
       StoredUser().setStoredUser(member.id,member.membershipId);
       return true;
   }
+
   Future<bool> updateUser(String? id, User member) async{
       final file = await readFromUserFile();
       final index = file!.indexWhere((x) => x.id == id);
+      final currentUser = file[index];
       
-      if(emailTaken(file, member.email)){
-        print("User Already Exists");
+      if((currentUser.id != file[index].id) && emailTaken(file, member.email)){
         return false;
       }
       
@@ -133,25 +131,11 @@ class DataServices {
   Future<bool> deleteUser(String? id) async{
       final file = await readFromUserFile();
       final originalListLenght = file!.length;
-      print(file.map((x)=> x.toJson()));
       file.removeWhere((x) => x.id == id);
 
       if(file.length == originalListLenght) return false;
-      print('Deleted here:');
-      print(file.map((x)=> x.toJson()));
       await save(file);
       return true;
   }
-
-  Future<bool> updateProfileDetails(String? id, User member) async{
-      final file = await readFromUserFile();
-      final index = file!.indexWhere((x) => x.id == id);
-      if(index == -1) return false;
-
-      file[index] = member;
-      await save(file);
-      return true;
-  }
-
 
 }

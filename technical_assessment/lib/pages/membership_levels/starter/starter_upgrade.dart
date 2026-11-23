@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:technical_assessment/data/data_classes.dart';
 import 'package:technical_assessment/data/services.dart';
 
-import '../../../shared_widgets/upgrade_dialog.dart';
+import '../../settings/update_dialog/upgrade_dialog.dart';
 
 class StarterUpgradeWidget extends StatefulWidget {
   const StarterUpgradeWidget({super.key,required this.id,required this.membershipId});
@@ -25,7 +25,7 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
 
   Future<void> getUpgradeOptions() async{
     busy = true;
-      _membershipList = await DataServices().getMembershipList();
+    _membershipList = await DataServices().getMembershipList();
     user = await DataServices().getUser(widget.id);
      setState(() {
        _membershipList.removeWhere((x) =>x.id == widget.membershipId);

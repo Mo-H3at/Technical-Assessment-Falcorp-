@@ -160,8 +160,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
       );
   }
 
-  saveProfile()async{
-    if(await DataServices().updateProfileDetails(id,user))
+  void saveProfile()async{
+    if(await DataServices().updateUser(id,user))
     {
       Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (context) => MainTabsPage()));

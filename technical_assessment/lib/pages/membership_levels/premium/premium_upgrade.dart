@@ -3,7 +3,6 @@ import 'package:material_ui/material_ui.dart';
 class PremiumUpgradeWidget extends StatefulWidget {
   const PremiumUpgradeWidget({super.key});
   
-
   @override
   State<PremiumUpgradeWidget> createState() => _PremiumUpgradeWidgetState();
 }

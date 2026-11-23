@@ -2,7 +2,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../data/data_classes.dart';
 import '../../../data/services.dart';
-import '../../../shared_widgets/upgrade_dialog.dart';
+import '../../settings/update_dialog/upgrade_dialog.dart';
 
 class PlusUpgradeWidget extends StatefulWidget {
   const PlusUpgradeWidget({super.key,required this.membershipId,required this.id});
@@ -14,13 +14,13 @@ class PlusUpgradeWidget extends StatefulWidget {
 
 class _PlusUpgradeWidgetState extends State<PlusUpgradeWidget> {
 
-    final CarouselController _carouselController = CarouselController(initialItem: 0);
-    bool busy = false;
-    late final List<Membership> _membershipList;
-    List<dynamic> featuresList = [];
-    late final Membership chosenMembership;
-    String? membershipId;
-    late User user;
+  final CarouselController _carouselController = CarouselController(initialItem: 0);
+  bool busy = false;
+  late final List<Membership> _membershipList;
+  List<dynamic> featuresList = [];
+  late final Membership chosenMembership;
+  String? membershipId;
+  late User user;
 
   Future<void> getUpgradeOptions() async{
     busy = true;
@@ -106,7 +106,7 @@ class _PlusUpgradeWidgetState extends State<PlusUpgradeWidget> {
                 builder: (context)=> UpgradeMembershipDialog(Id: widget.id,membershipId: membershipId!,
                   newMembership: user,newMembershipName:chosenMembership.name,));
             },
-             child: Text("Upgrade Membership")))
+            child: Text("Upgrade Membership")))
       ],
     );
   }

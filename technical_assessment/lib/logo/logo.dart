@@ -13,6 +13,7 @@ class LogoAvatar extends StatelessWidget {
     );
   }
 }
+
 class LogoImage extends StatelessWidget {
   const LogoImage({super.key});
 

@@ -46,7 +46,7 @@ void setUserFunction()async{
     return widgetOptions;
   }
 
-void _onItemTapped(int index) {
+  void _onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
     });

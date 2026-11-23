@@ -12,7 +12,7 @@ class PremiumHomeWidget extends StatefulWidget {
 }
 
 class _PremiumHomeWidgetState extends State<PremiumHomeWidget> {
-   late final Membership membershipDetail;
+  late final Membership membershipDetail;
   bool busy = false;
 
   Future<void> getMembership() async {
@@ -23,6 +23,7 @@ class _PremiumHomeWidgetState extends State<PremiumHomeWidget> {
     });
     busy = false;
   }
+
   @override
   void initState() {
     getMembership();
@@ -37,7 +38,6 @@ class _PremiumHomeWidgetState extends State<PremiumHomeWidget> {
      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
       mainAxisSpacing: 3,
-
       ), 
       itemCount: membershipDetail.features.length,
       itemBuilder: (BuildContext context,int index){

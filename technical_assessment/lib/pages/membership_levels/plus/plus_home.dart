@@ -61,8 +61,8 @@ class _PlusHomeWidgetState extends State<PlusHomeWidget> {
               ),
             );
           }
-             ),
-       ),
-     );
+        ),
+      ),
+    );
   }
 }
