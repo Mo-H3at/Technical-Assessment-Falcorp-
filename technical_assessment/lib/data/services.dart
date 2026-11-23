@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:technical_assessment/data/data_classes.dart';
+import 'package:technical_assessment/validations/validations.dart';
 
 import '../storage/stored_user.dart';
 
@@ -78,10 +79,18 @@ class DataServices {
     var userList = await getUserFileList();
     
     User user = User(id: 'usr_100${userList!.length+1}', name: name, email: email, membershipId: membershipId);
+   
     if(userList != null){
+
+      if(emailTaken(userList, email)){
+        print("User Already Exists");
+        return success;
+      }
+
       addUser(user);
       success = true;
     }
+    
     return success;
   }
 
