@@ -30,9 +30,7 @@ class _SignInPageState extends State<SignInPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 20,
           children: [
-            Container(
-              child: LogoImage(),
-            ),
+            LogoImage(),
             
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -49,17 +47,27 @@ class _SignInPageState extends State<SignInPage> {
             ),
 
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.black
+            ),
               onPressed: ()  {
                 signInCheck();
               }, 
-              child: const Text("Sign In")),
+              child: const Text("Sign In",style: TextStyle(fontSize: 18),)),
 
             Container(
               margin: EdgeInsets.symmetric(vertical: 10),
               child: TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.deepPurple,
+                  textStyle: TextStyle(
+                    decoration: TextDecoration.underline
+                  )
+                ),
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => SignUpPage())), 
-                child: Text("Sign Up")),
+                child: Text("Sign Up",style: TextStyle(fontSize: 18),)),
             )
           ],
         ),

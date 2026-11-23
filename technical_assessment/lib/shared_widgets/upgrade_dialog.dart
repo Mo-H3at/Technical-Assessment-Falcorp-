@@ -51,21 +51,21 @@ class _UpgradeMembershipDialogState extends State<UpgradeMembershipDialog> {
     }
     else{
       showDialog(context: context, builder: (context) =>
-            AlertDialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              icon: Icon(Icons.warning_amber_rounded,),
-              title: const Text('Failed to Upgrade Membership tier', style: TextStyle(fontSize: 14)),
-              actionsPadding: EdgeInsets.all(5),
-              actionsAlignment: MainAxisAlignment.spaceAround,
-              actions: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Okay')),
-              ],
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          icon: Icon(Icons.warning_amber_rounded,),
+          title: const Text('Failed to Upgrade Membership tier', style: TextStyle(fontSize: 14)),
+          actionsPadding: EdgeInsets.all(5),
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('Okay')),
+          ],
         )
       );
     }

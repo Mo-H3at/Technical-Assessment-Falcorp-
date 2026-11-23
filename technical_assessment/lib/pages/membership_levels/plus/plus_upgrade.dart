@@ -54,6 +54,13 @@ class _PlusUpgradeWidgetState extends State<PlusUpgradeWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
+          flex: 0,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Available Upgrades: 1",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          )
+        ),
+        Expanded(
           flex: 1,
           child: Padding(
             padding: const EdgeInsets.all(8.0),

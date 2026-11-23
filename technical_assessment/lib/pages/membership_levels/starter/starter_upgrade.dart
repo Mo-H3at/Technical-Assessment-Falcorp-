@@ -82,7 +82,7 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
               itemBuilder: (BuildContext context, int index){
                 return Card(
                   elevation: 0.2,
-                  color: Colors.primaries[index % Colors.primaries.length+2],
+                  color: Colors.primaries[index % Colors.primaries.length*3],
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +99,7 @@ class _StarterUpgradeWidgetState extends State<StarterUpgradeWidget> {
                         ),
                           Expanded(
                             child: ListView.builder(
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(15),
                               itemCount: featuresList.length,
                               itemBuilder: (BuildContext context, int index){
                                 return ListTile(

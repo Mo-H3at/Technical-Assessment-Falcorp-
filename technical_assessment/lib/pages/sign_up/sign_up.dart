@@ -4,6 +4,7 @@ import 'package:technical_assessment/validations/validations.dart';
 
 import '../../data/data_classes.dart';
 import '../../data/services.dart';
+import '../../logo/logo.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -50,12 +51,13 @@ class _SignUpPageState extends State<SignUpPage> {
         appBar: AppBar(),
         body: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 20,
+              spacing: 18,
               children: [
+                LogoImage(),
                 TextField(
                   controller: nameController,
                   keyboardType: TextInputType.text,
